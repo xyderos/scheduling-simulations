@@ -5,17 +5,21 @@
 
 #include "driver.h"
 
+#define DEBUG 1
+
 static Suite *
-calculations_suite(void)
+scheduling_suite(void)
 {
 	Suite *s = NULL;
 	TCase *tc_core = NULL;
 
-	s = suite_create("calculation");
+	s = suite_create("scheduling");
 	tc_core = tcase_create("core");
 
-	tcase_add_test(tc_core, TEST_ADDITION_SHOULD_BE_OKAY);
-	tcase_add_test(tc_core, TEST_MULTIPLICATION_SHOULD_BE_OKAY);
+	tcase_add_test(tc_core, SIMULATE_PREEMPTIVE_SJF);
+	tcase_add_test(tc_core, SIMULATE_NON_PREEMPTIVE_SJF);
+	tcase_add_test(tc_core, SIMULATE_PREEMPTIVE_PRIORITY);
+	tcase_add_test(tc_core, SIMULATE_NON_PREEMPTIVE_PRIORITY);
 
 	suite_add_tcase(s, tc_core);
 
@@ -25,12 +29,11 @@ calculations_suite(void)
 int
 main(void)
 {
-
 	int no_failed = 0;
 	Suite *s = NULL;
 	SRunner *runner = NULL;
 
-	s = calculations_suite();
+	s = scheduling_suite();
 	runner = srunner_create(s);
 
 	srunner_run_all(runner, CK_NORMAL);
